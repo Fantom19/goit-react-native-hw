@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
-  Image,
 } from "react-native";
 
 import { useFonts } from "expo-font";
@@ -18,13 +17,12 @@ import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync();
 
 const initialState = {
-  login: "",
   email: "",
   password: "",
 };
 
-const RegistrationScreen = () => {
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+const LoginScreen = () => {
+  const [activeInput, setActiveInput] = useState(null);
   const [state, setState] = useState(initialState);
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
@@ -42,7 +40,7 @@ const RegistrationScreen = () => {
   }
 
   function keyboardHide() {
-    setIsShowKeyboard(false);
+    setActiveInput(null);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
@@ -60,44 +58,34 @@ const RegistrationScreen = () => {
           >
             <View style={styles.wrapper}>
               <View style={styles.form}>
-                <Text style={styles.title}>Регистрация</Text>
+                <Text style={styles.title}>Войти</Text>
                 <View>
                   <TextInput
-                    style={styles.input}
-                    keyboardType="login"
-                    placeholder="Логин"
-                    value={state.login}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                    }}
-                    onChangeText={(value) =>
-                      setState((prevState) => ({ ...prevState, login: value }))
-                    }
-                  />
-                </View>
-                <View style={{ marginTop: 16 }}>
-                  <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      activeInput === "email" && styles.activeInput,
+                    ]}
                     keyboardType="email-address"
                     placeholder="Адрес электронной почты"
                     value={state.email}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                    }}
+                    onFocus={() => setActiveInput("email")}
+                    onBlur={() => setActiveInput(null)}
                     onChangeText={(value) =>
                       setState((prevState) => ({ ...prevState, email: value }))
                     }
                   />
                 </View>
-                <View style={{ marginTop: 16 }}>
+                <View style={styles.inputWrapper}>
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      activeInput === "password" && styles.activeInput,
+                    ]}
                     secureTextEntry={true}
                     placeholder="Пароль"
                     value={state.password}
-                    onFocus={() => {
-                      setIsShowKeyboard(true);
-                    }}
+                    onFocus={() => setActiveInput("password")}
+                    onBlur={() => setActiveInput(null)}
                     onChangeText={(value) =>
                       setState((prevState) => ({
                         ...prevState,
@@ -107,35 +95,29 @@ const RegistrationScreen = () => {
                   />
                   <Text style={styles.textPassword}>Показать</Text>
                 </View>
-                <View style={styles.imageWrapper}>
-                  <Image
-                    source={require("../assets/images/add.png")}
-                    style={styles.addIcon}
-                  />
-                </View>
+              </View>
+            </View>
+            <View style={styles.registrationWrapper}>
+              <View style={styles.registration}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.button}
+                  onPress={keyboardHide}
+                >
+                  <Text style={styles.textButton}>Войти</Text>
+                </TouchableOpacity>
+
+                <Text style={styles.textLink}>
+                  Нет аккаунта? Зарегистрироваться
+                </Text>
               </View>
             </View>
           </KeyboardAvoidingView>
-          <View style={styles.registrationWrapper}>
-            <View style={styles.registration}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.button}
-                onPress={keyboardHide}
-              >
-                <Text style={styles.textButton}>Зарегистрироваться</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.textLink}>Уже есть аккаунт? Войти</Text>
-            </View>
-          </View>
         </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
 };
-
-export default RegistrationScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -153,7 +135,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
-
   form: {
     paddingTop: 32,
     backgroundColor: "#FFFFFF",
@@ -161,22 +142,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     marginHorizontal: 16,
     paddingBottom: 32,
-  },
-  imageWrapper: {
-    position: "absolute",
-    left: "35%",
-    top: "-32%",
-    width: 120,
-    height: 120,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-  },
-  addIcon: {
-    position: "absolute",
-    left: "90%",
-    top: "65%",
-    width: 25,
-    height: 25,
   },
   title: {
     textAlign: "center",
@@ -186,7 +151,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0.01,
     color: "#212121",
     marginBottom: 32,
-    marginTop: 32,
   },
   input: {
     fontFamily: "Roboto-Regular",
@@ -200,6 +164,10 @@ const styles = StyleSheet.create({
     padding: 16,
     color: "#212121",
   },
+  activeInput: {
+    borderWidth: 2,
+    borderColor: "#FF6C00",
+  },
   textPassword: {
     position: "absolute",
     top: "35%",
@@ -212,7 +180,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6C00",
     borderRadius: 100,
     height: 51,
-
     marginBottom: 16,
     justifyContent: "center",
     alignItems: "center",
@@ -237,4 +204,9 @@ const styles = StyleSheet.create({
   registration: {
     marginHorizontal: 16,
   },
+  inputWrapper: {
+    marginTop: 16,
+  },
 });
+
+export default LoginScreen;
