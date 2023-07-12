@@ -9,11 +9,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
-  Image,
 } from "react-native";
-
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { Ionicons } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -113,10 +112,7 @@ const RegistrationScreen = () => {
                   <Text style={styles.textPassword}>Показать</Text>
                 </View>
                 <View style={styles.imageWrapper}>
-                  <Image
-                    source={require("../images/add.png")}
-                    style={styles.addIcon}
-                  />
+                  <Ionicons name="add" size={30} style={styles.addIcon} />
                 </View>
               </View>
             </View>
@@ -179,10 +175,11 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     position: "absolute",
-    left: "90%",
+    left: "87%",
     top: "65%",
     width: 25,
     height: 25,
+    color: "#FF6C00",
   },
   title: {
     textAlign: "center",
@@ -209,7 +206,7 @@ const styles = StyleSheet.create({
   activeInput: {
     borderWidth: 2,
     borderColor: "#FF6C00",
-    backgroundColor: "#fa7d20",
+    backgroundColor: null,
   },
   textPassword: {
     position: "absolute",

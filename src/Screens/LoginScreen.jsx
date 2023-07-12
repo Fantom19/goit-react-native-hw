@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
   activeInput: {
     borderWidth: 2,
     borderColor: "#FF6C00",
+    backgroundColor: null,
   },
   textPassword: {
     position: "absolute",
