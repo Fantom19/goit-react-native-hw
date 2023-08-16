@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -112,7 +112,11 @@ const RegistrationScreen = () => {
                   <Text style={styles.textPassword}>Показать</Text>
                 </View>
                 <View style={styles.imageWrapper}>
-                  <Ionicons name="add" size={30} style={styles.addIcon} />
+                  <AntDesign
+                    name="pluscircleo"
+                    size={30}
+                    style={styles.addIcon}
+                  />
                 </View>
               </View>
             </View>
@@ -177,8 +181,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "87%",
     top: "65%",
-    width: 25,
-    height: 25,
     color: "#FF6C00",
   },
   title: {
