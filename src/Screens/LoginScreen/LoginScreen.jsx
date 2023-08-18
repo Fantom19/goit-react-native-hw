@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   ImageBackground,
   TouchableWithoutFeedback,
@@ -8,8 +8,6 @@ import {
   Text,
   TextInput,
   Keyboard,
-  Platform,
-  KeyboardAvoidingView,
 } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -22,7 +20,7 @@ const initialState = {
 const LoginScreen = () => {
   const [isActiveEmail, setIsActiveEmail] = useState(false);
   const [isActivePassword, setIsActivePassword] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const [fontsLoaded] = useFonts({
@@ -50,6 +48,10 @@ const LoginScreen = () => {
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
+  };
+
+  const handlePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const handleLogin = () => {
@@ -93,7 +95,7 @@ const LoginScreen = () => {
                 }}
                 placeholder="Пароль"
                 value={state.password}
-                secureTextEntry={showPassword}
+                secureTextEntry={!showPassword}
                 placeholderTextColor="#BDBDBD"
                 marginBottom={43}
                 onFocus={() => setIsActivePassword(true)}
@@ -105,10 +107,11 @@ const LoginScreen = () => {
               <TouchableOpacity
                 style={styles.buttonPassword}
                 activeOpacity={0.7}
-                onPressIn={() => setShowPassword(false)}
-                onPressOut={() => setShowPassword(true)}
+                onPress={handlePasswordVisibility}
               >
-                <Text style={styles.buttonText}>Показати</Text>
+                <Text style={styles.buttonText}>
+                  {showPassword ? "Скрыть" : "Показать"}
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
@@ -220,4 +223,5 @@ const styles = StyleSheet.create({
     color: "#1B4371",
   },
 });
+
 export default LoginScreen;
